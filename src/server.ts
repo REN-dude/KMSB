@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { profilesRouter } from './routes/profiles';
 import { db } from './store';
+import { matchRouter } from './routes/match';
 import { Request, Response } from 'express';
 
 const app = express();
@@ -16,24 +17,7 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 app.use('/profiles', profilesRouter);
-
-app.post('/match', (req: Request, res: Response) => {
-  // Simple stub: random scores for demo
-  const { requesterId, limit = 5 } = req.body ?? {};
-  if (!requesterId || typeof requesterId !== 'string') {
-    return res.status(400).json({ error: 'requesterId is required' });
-  }
-  // For now, return top N other profiles with dummy score
-  // A real implementation would compute based on skills/interests overlap
-  // and perhaps university or availability.
-  const all = db.listProfiles();
-  const results = all
-    .filter((p: any) => p.id !== requesterId)
-    .map((p: any) => ({ targetId: p.id, score: Math.random() }))
-    .sort((a: any, b: any) => b.score - a.score)
-    .slice(0, Math.max(0, Math.min(limit, 20)));
-  res.json({ count: results.length, items: results });
-});
+app.use('/', matchRouter);
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.listen(port, () => {

@@ -37,11 +37,22 @@
       "email": "alice@example.com",
       "university": "XYZ Univ.",
       "skills": ["frontend", "design"],
-      "interests": ["edtech", "fintech"]
+      "interests": ["edtech", "fintech"],
+      "bio": "UI/UXに興味",
+      "lookingFor": "バックエンド経験者"
     }
     ```
-- `GET /profiles` プロフィール一覧（簡易フィルタ対応予定）
-- `POST /match` 簡易マッチング（スタブ）
+- `GET /profiles` プロフィール一覧
+- `GET /profiles/:id` プロフィール取得
+- `PATCH /profiles/:id` プロフィール更新（部分更新）
+- `POST /match` マッチ候補のスコアリング
+  - body 例:
+    ```json
+    { "requesterId": "<uuid>", "limit": 5, "weights": { "skills": 0.6, "interests": 0.3, "university": 0.1 } }
+    ```
+- `POST /likes` いいね（相手への興味を表明）
+  - body 例: `{ "fromId": "<uuid>", "toId": "<uuid>" }`
+- `GET /matches/:id` 相互マッチ一覧（id のユーザ視点）
 
 ## ロードマップ（案）
 - 認証: 学生認証 + OAuth（GitHub/Google）
