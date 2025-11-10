@@ -2,7 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { profilesRouter } from './routes/profiles.js';
+import { profilesRouter } from './routes/profiles';
+import { db } from './store';
 import { Request, Response } from 'express';
 
 const app = express();
@@ -25,7 +26,6 @@ app.post('/match', (req: Request, res: Response) => {
   // For now, return top N other profiles with dummy score
   // A real implementation would compute based on skills/interests overlap
   // and perhaps university or availability.
-  const { db } = require('./store.js');
   const all = db.listProfiles();
   const results = all
     .filter((p: any) => p.id !== requesterId)
@@ -39,4 +39,3 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 app.listen(port, () => {
   console.log(`KMSB API listening on http://localhost:${port}`);
 });
-

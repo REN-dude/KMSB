@@ -1,4 +1,4 @@
-import { Profile } from './types.js';
+import { Profile } from './types';
 import { randomUUID } from 'crypto';
 
 class InMemoryStore {
@@ -22,4 +22,3 @@ class InMemoryStore {
 }
 
 export const db = new InMemoryStore();
-

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { db } from '../store.js';
-import { ProfileSchema } from '../types.js';
+import { db } from '../store';
+import { ProfileSchema } from '../types';
 
 export const profilesRouter = Router();
 
@@ -17,4 +17,3 @@ profilesRouter.post('/', (req: Request, res: Response) => {
   const created = db.addProfile(parsed.data);
   res.status(201).json(created);
 });
-
